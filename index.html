@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سهرة الباك - مراجعة الأدب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #36393f;
+            --bg-darker: #2f3136;
+            --bg-darkest: #202225;
+            --text-main: #dcddde;
+            --text-header: #ffffff;
+            --accent: #5865F2;
+            --accent-hover: #4752c4;
+            --warning: #faa61a;
+            --code-bg: #2f3136;
+            --border-color: #202225;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-darker);
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .server-name {
+            font-weight: 700;
+            color: var(--text-header);
+            padding: 15px 10px;
+            border-bottom: 1px solid var(--bg-darkest);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .channel {
+            padding: 8px 10px;
+            margin-bottom: 2px;
+            border-radius: 4px;
+            color: #8e9297;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .channel:hover, .channel.active {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        .channel::before {
+            content: '#';
+            margin-left: 6px;
+            font-size: 1.2em;
+            color: #8e9297;
+        }
+
+        /* Main Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-dark);
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background-color: var(--bg-dark);
+            border-bottom: 1px solid var(--bg-darkest);
+            font-weight: 700;
+            color: var(--text-header);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Message Styling */
+        .message {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .bot-avatar { background-color: var(--accent); }
+        .admin-avatar { background-color: #ed4245; }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .username {
+            font-weight: 600;
+            color: var(--text-header);
+            margin-bottom: 4px;
+        }
+
+        .username span {
+            font-size: 0.75em;
+            color: #72767d;
+            font-weight: 400;
+            margin-right: 5px;
+        }
+
+        .bot-tag {
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.6em;
+            padding: 2px 5px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .text {
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        /* Exam Paper Styling */
+        .exam-block {
+            background-color: var(--bg-darker);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            border-right: 4px solid var(--accent);
+        }
+
+        .poem {
+            background-color: var(--bg-darkest);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            white-space: pre-wrap;
+            line-height: 2;
+            color: #e3e5e8;
+        }
+
+        .questions-title {
+            color: var(--accent);
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #4f545c;
+            padding-bottom: 5px;
+        }
+
+        ul, ol {
+            margin-right: 20px;
+            margin-top: 5px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Important Note Box */
+        .important-note {
+            background-color: rgba(250, 166, 26, 0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar { display: none; } /* Hide sidebar on mobile for focus */
+            .avatar { width: 35px; height: 35px; margin-left: 10px; }
+            .message { margin-bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="server-name">🌙 سهرة الباك (BAC Night)</div>
+        <div class="channel active">القوانين-والتعليمات</div>
+        <div class="channel">الموضوع-الأول-شعر</div>
+        <div class="channel">الموضوع-الثاني-علمي</div>
+        <div class="channel">تسليم-الحل</div>
+    </div>
+
+    <div class="chat-area">
+        <div class="chat-header">
+            # 📜 غرفة-المراجعة-العامة
+        </div>
+
+        <div class="messages-container">
+            
+            <div class="message">
+                <div class="avatar bot-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="username">BAC_Bot <span class="bot-tag">BOT</span> <span>اليوم الساعة 21:00</span></div>
+                    <div class="text">
+                        أهلاً يا أبطال البكالوريا! 👋 <br>
+                        الليلة عندنا تحدي قوي في <strong>الشعر التعليمي</strong>.
+                        <div class="important-note">
+                            ⚠️ تنبيه هام جداً قبل البدء:
+                            <br>1. إلتزموا بمنهجية الإجابة حرفياً.
+                            <br>2. راجعوا ملخص المحور جيداً قبل قراءة الأسئلة.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message">
+                <div class="avatar admin-avatar">👑</div>
+                <div class="message-content">
+                    <div class="username">الأستاذ (Admin) <span>اليوم الساعة 21:05</span></div>
+                    <div class="text">
+                        <strong>📌 الموضوع الأول: نص لابن الوردي (شعر الزهد والتعليم)</strong>
+                        <br>اقرأ الأبيات بتركيز شديد:
+                        
+                        <div class="exam-block">
+                            <div class="poem">
+1. اعـتـزلْ ذِكْـرَ الأغـانـي والـغَـزَلْ *** وقُـلِ الـفَـصْـلَ وجـانـبْ مَـنْ هَـزَلْ
+2. واتَّـقِ الـلـهَ فـتـقـوى الـلـهِ مـا *** جـاورَتْ قـلـبَ امـرئٍ إلا وَصَـلْ
+3. كُـتِـبَ الـمـوتُ عـلـى الـخَـلْـقِ فـكَمْ *** فَـلَّ مِـنْ جـيـشٍ وأفـنـى مِـنْ دُوَلْ
+4. أيـنَ نُـمـرودُ وكـنـعـانُ ومَـنْ *** مَـلَـكَ الأرضَ وولَّـى وعَـزَلْ ؟
+5. أيـنَ مَـنْ سـادوا وشـادوا وبَـنَـوْا *** هَـلَـكَ الـكُـلُّ ولـم تُـغْـنِ الـقُـلَـلْ ؟
+6. لا تَـقُـلْ أصـلـي وفَـصـلـي أبـداً *** إنَّـمـا أصـلُ الـفَـتـى مـا قـد حَـصَـلْ
+7. قِـيـمَـةُ الإنـسـانِ مـا يُـحْـسِـنُـهُ *** أكـثـرَ الإنـسـانُ مـنـه أمْ أقَـلْ
+8. اطـلـبِ الـعِـلـمَ ولا تـكـسَـلْ فـمـا *** أبـعـدَ الـخـيـرَ عـلـى أهـلِ الـكَـسَـلْ
+                            </div>
+
+                            <div class="questions-title">أولاً: البناء الفكري</div>
+                            <ol>
+                                <li>مِمَّ حذّر الشاعر في مطلع القصيدة؟ وما البديل الذي اقترحه؟</li>
+                                <li>بمَ استدل الشاعر على حتمية الموت؟ (أشر إلى الأبيات الدالة).</li>
+                                <li>ما المعيار الحقيقي لرفعة الإنسان وقيمته في نظر الشاعر؟</li>
+                                <li>إلى أي لون شعري ينتمي النص؟ وما الغاية منه؟</li>
+                                <li>لخص مضمون الأبيات بأسلوبك الخاص.</li>
+                            </ol>
+
+                            <div class="questions-title">ثانياً: البناء اللغوي</div>
+                            <ol>
+                                <li>أعرب ما تحته خط (الأغاني، الموتُ) وما بين قوسين (ما قد حصل).</li>
+                                <li>ما النمط الغالب على النص؟ اذكر مؤشرين له مع التمثيل.</li>
+                                <li>استخرج من البيت الأول محسناً بديعياً وبين نوعه وأثره.</li>
+                                <li>في العبارة: "فلَّ من جيش" صورة بيانية، اشرحها وبين نوعها وسر بلاغتها.</li>
+                            </ol>
+
+                            <div class="questions-title">ثالثاً: التقويم النقدي</div>
+                            <p>"شاع في عصر المماليك شعر تميز بطابع الوعظ والإرشاد، ولكنه غلب عليه التكلف والتقليد."<br>ناقش هذا القول مبيناً خصائص أسلوب هذا الشعر، وأسباب شيوعه.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; color: #72767d; margin: 20px;">--------------- ☕ استراحة قصيرة ---------------</div>
+
+            <div class="message">
+                <div class="avatar admin-avatar">👑</div>
+                <div class="message-content">
+                    <div class="username">الأستاذ (Admin) <span>اليوم الساعة 21:30</span></div>
+                    <div class="text">
+                        <strong>📌 الموضوع الثاني: نص في مدح العلم</strong>
+                        <br>هذا النص يركز على الحجج والبراهين، ركزوا في الأنماط:
+
+                        <div class="exam-block">
+                            <div class="poem">
+1. بالعِـلْـمِ يُـدْرِكُ أقـصـى الـمَـجْـدِ مِـنْ أَمَـمِ *** ولا رُقِـيَّ بـغـيـرِ الـعِـلْـمِ لِـلأُمَـمِ
+2. يـا مَـنْ لـهُ هِـمَّـةٌ تَـسْـمُـو بِـه صُـعُـدًا *** نـحـوَ الـمَـعـالـي أيـا قُـرْحًـا مِـنَ الألَـمِ
+3. شَـيِّـدْ مِـنَ الـعِـلْـمِ بُـنْـيـانًا يَـخِـرُّ لَـهُ *** صَـرْحُ الـخُـلُـودِ عَـلـى هـامِ الـسِّـمـاكِ فـمِ
+4. الـعِـلْـمُ نُـورٌ، وبـاقـي الـنـاسِ فـي ظُـلَـمٍ *** يَـعْـشُـو بـصـائـرَهـم كـالـسـارِحِ الـنَّـعَـمِ
+5. فـاعْـكُـفْ عـلـى الـعِـلْـمِ تـجـنـه ثَـمـرَتَـهُ *** إنَّ الـمَـعـارِفَ لِـلأحـرارِ كَـالـخَـدَمِ
+6. لا تَـحْـسَـبِ الـمـجـدَ تَـمْـرًا أنـتَ آكِـلُـهُ *** لـن تَـبْـلُـغَ الـمـجـدَ حـتـى تَـلْـعَـقَ الـصَّـبِـرَا
+                            </div>
+
+                            <div class="questions-title">أولاً: البناء الفكري</div>
+                            <ol>
+                                <li>ما القضية التي يعالجها الشاعر؟ وما أثرها على الأمم؟</li>
+                                <li>عقد الشاعر موازنة في البيت الرابع. وضح طرفيها ونتيجتها.</li>
+                                <li>هل يبدو الشاعر مجدداً أم مقلداً؟ علل إجابتك.</li>
+                                <li>انثر الأبيات (1، 4، 6) نثراً أدبياً.</li>
+                            </ol>
+
+                            <div class="questions-title">ثانياً: البناء اللغوي</div>
+                            <ol>
+                                <li>صنف الكلمات التالية في حقلين دلاليين: (المجد، المعالي، العلم، الظلم، المعارف، النور).</li>
+                                <li>أعرب ما تحته خط (بنياناً، نورٌ)، ومحل جملة (أنت آكله).</li>
+                                <li>ما الأسلوب البلاغي في البيت الثاني؟ وما غرضه؟</li>
+                                <li>حدد الروابط المنطقية التي ساهمت في اتساق النص.</li>
+                            </ol>
+
+                            <div class="questions-title">ثالثاً: التقويم النقدي</div>
+                            <p>هل ينطبق حكم "الجمود الفني والزخرفة اللفظية" على هذا النص؟ وضح رأيك مستشهداً بخصائص شعر المنظومات.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message">
+                <div class="avatar bot-avatar">📝</div>
+                <div class="message-content">
+                    <div class="username">BOT_Tasks <span class="bot-tag">SYSTEM</span> <span>الآن</span></div>
+                    <div class="text">
+                        <div style="border: 2px dashed #faa61a; padding: 15px; border-radius: 8px; background: rgba(250, 166, 26, 0.05);">
+                            <h3 style="color: #faa61a; margin-bottom: 10px;">🔴 تعليمات تسليم الإجابة:</h3>
+                            <p>
+                                1. <strong>ممنوع الكتابة هنا.</strong> <br>
+                                2. أحضر ورقة مزدوجة وقلم، واكتب الحل بخط واضح. <br>
+                                3. التزم بالترقيم والمنهجية الصحيحة. <br>
+                                4. صوّر إجابتك بوضوح وأرسلها في رسالة خاصة إلى حساب الأستاذ <strong>(DM)</strong> للتصحيح.
+                            </p>
+                            <br>
+                            <em>بالتوفيق للجميع! 💪</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
